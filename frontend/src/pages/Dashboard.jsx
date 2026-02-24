@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import TaskForm from "../components/TaskForm";
 import TaskCard from "../components/TaskCard";
 import TaskStats from "../components/TaskStats";
-import API from "../api";
+import API from "../api/axios";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
