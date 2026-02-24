@@ -1,15 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import TaskForm from "../components/TaskForm";
 import TaskCard from "../components/TaskCard";
 import TaskStats from "../components/TaskStats";
+import API from "../api";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const { data } = await API.get("/api/tasks");
+        setTasks(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const addTask = (task) => {
-    setTasks([...tasks, { ...task, _id: Date.now(), completed: false }]);
-  };
+    fetchTasks();
+  }, []);
+
+  const addTask = async (task) => {
+  try {
+    const { data } = await API.post("/api/tasks", task);
+    setTasks([...tasks, data]);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task._id !== id));
